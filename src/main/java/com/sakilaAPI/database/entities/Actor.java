@@ -30,7 +30,7 @@ public class Actor {
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
-    @OneToMany(mappedBy = "actor")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "actor")
     @ToString.Exclude
     private Set<FilmActor> filmActors = new LinkedHashSet<>();
 

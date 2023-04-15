@@ -3,13 +3,12 @@ package com.sakilaAPI.utils.mappers;
 import com.sakilaAPI.database.entities.FilmActorId;
 import com.sakilaAPI.service.dtos.FilmActorIdDto;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.CDI)
+@Mapper()
 public interface FilmActorIdMapper {
+    FilmActorIdMapper INSTANCE = Mappers.getMapper( FilmActorIdMapper.class );
     FilmActorId toEntity(FilmActorIdDto filmActorIdDto);
 
     FilmActorIdDto toDto(FilmActorId filmActorId);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    FilmActorId partialUpdate(FilmActorIdDto filmActorIdDto, @MappingTarget FilmActorId filmActorId);
 }

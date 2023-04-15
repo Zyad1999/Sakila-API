@@ -67,11 +67,11 @@ public class Film {
     @ToString.Exclude
     private Set<Inventory> inventories = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "film")
     @ToString.Exclude
     private Set<FilmActor> filmActors = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "film")
     @ToString.Exclude
     private Set<FilmCategory> filmCategories = new LinkedHashSet<>();
 

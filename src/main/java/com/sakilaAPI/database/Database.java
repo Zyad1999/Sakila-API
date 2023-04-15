@@ -13,11 +13,14 @@ public class Database {
 
     // Spring's TransactionCallBack
     private static final EntityManagerFactory emf =
-            Persistence.createEntityManagerFactory("testing_course");
+            Persistence.createEntityManagerFactory("sakila");
+
+    private static final ThreadLocal<EntityManager> entityManagerThreadLocal = new ThreadLocal<>();
 
     public static <R> R doInTransaction(
             Function<EntityManager, R> returningTransactionFunction) {
         var entityManager = emf.createEntityManager();
+        entityManagerThreadLocal.set(entityManager);
         var transaction = entityManager.getTransaction();
         transaction.begin();
         try {
@@ -27,14 +30,13 @@ public class Database {
         } catch (Exception e) {
             transaction.rollback();
             throw e;
-        } finally {
-            entityManager.close();
         }
     }
 
     public static void doInTransactionWithoutResult(
             Consumer<EntityManager> voidTransactionFunction) {
         var entityManager = emf.createEntityManager();
+        entityManagerThreadLocal.set(entityManager);
         var transaction = entityManager.getTransaction();
         transaction.begin();
         try {
@@ -43,13 +45,19 @@ public class Database {
         } catch (Exception e) {
             transaction.rollback();
             throw e;
-        } finally {
-            entityManager.close();
         }
     }
 
     public static void close() {
         emf.close();
         System.out.println("Database resources cleaned up");
+    }
+
+    public static void closeEntityManager(){
+        EntityManager entityManager = entityManagerThreadLocal.get();
+        if (entityManager != null) {
+            entityManager.close();
+            entityManagerThreadLocal.remove();
+        }
     }
 }

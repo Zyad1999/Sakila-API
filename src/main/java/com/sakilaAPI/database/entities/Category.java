@@ -26,7 +26,7 @@ public class Category {
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
     @ToString.Exclude
     private Set<FilmCategory> filmCategories = new LinkedHashSet<>();
 

@@ -1,7 +1,6 @@
 package com.sakilaAPI.database.repos.interfaces;
 
-import com.sakilaAPI.exceptions.RepositoryException;
-import jakarta.persistence.EntityNotFoundException;
+import com.sakilaAPI.config.exceptions.BusinessException;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +14,5 @@ public interface Repository<T> {
 
     void deleteEntityById(Integer id);
 
-    T updateEntity(T entity) throws EntityNotFoundException, RepositoryException;
+    T updateEntity(T entity) throws BusinessException;
 }

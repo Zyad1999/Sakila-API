@@ -3,13 +3,12 @@ package com.sakilaAPI.utils.mappers;
 import com.sakilaAPI.database.entities.City;
 import com.sakilaAPI.service.dtos.CityDto;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.CDI)
+@Mapper()
 public interface CityMapper {
+    CityMapper INSTANCE = Mappers.getMapper( CityMapper.class );
     City toEntity(CityDto cityDto);
 
     CityDto toDto(City city);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    City partialUpdate(CityDto cityDto, @MappingTarget City city);
 }

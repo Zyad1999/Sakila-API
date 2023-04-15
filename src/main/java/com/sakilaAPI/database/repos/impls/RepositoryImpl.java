@@ -2,16 +2,16 @@ package com.sakilaAPI.database.repos.impls;
 
 import com.sakilaAPI.database.Database;
 import com.sakilaAPI.database.repos.interfaces.Repository;
-import com.sakilaAPI.exceptions.RepositoryException;
-import jakarta.persistence.EntityNotFoundException;
+import com.sakilaAPI.config.exceptions.BusinessException;
 import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.Optional;
 
 public class RepositoryImpl<T> implements Repository<T>{
 
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     public RepositoryImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -36,7 +36,8 @@ public class RepositoryImpl<T> implements Repository<T>{
     @Override
     public List<T> getAllEntities() {
         return Database.doInTransaction(entityManager -> {
-            TypedQuery<T> query = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
+            TypedQuery<T> query = entityManager.createQuery("SELECT e FROM " +
+                    entityClass.getSimpleName() + " e ", entityClass);
             return query.getResultList();
         });
     }
@@ -52,14 +53,18 @@ public class RepositoryImpl<T> implements Repository<T>{
     }
 
     @Override
-    public T updateEntity(T entity) throws EntityNotFoundException, RepositoryException {
+    public T updateEntity(T entity) throws BusinessException {
         Database.doInTransactionWithoutResult(entityManager -> {
             try {
                 entityManager.merge(entity);
             } catch (IllegalArgumentException e) {
-                throw new EntityNotFoundException("Entity not found for ID: " + entity.getClass().getSimpleName() + "#" + entity.hashCode(), e);
+                throw new BusinessException(Response.Status.NOT_MODIFIED.getReasonPhrase(),
+                        Response.Status.NOT_MODIFIED.getStatusCode()
+                        ,"Entity not found for ID: " + entity.getClass().getSimpleName() + "#" + entity.hashCode());
             } catch (Exception e) {
-                throw new RepositoryException("An error occurred while updating the entity: " + entity, e);
+                throw new BusinessException(Response.Status.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                        Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()
+                        ,"An error occurred while updating the entity: " + entity);
             }
         });
         return entity;

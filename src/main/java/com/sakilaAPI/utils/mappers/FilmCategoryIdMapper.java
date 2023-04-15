@@ -3,13 +3,12 @@ package com.sakilaAPI.utils.mappers;
 import com.sakilaAPI.database.entities.FilmCategoryId;
 import com.sakilaAPI.service.dtos.FilmCategoryIdDto;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.CDI)
+@Mapper()
 public interface FilmCategoryIdMapper {
+    FilmCategoryIdMapper INSTANCE = Mappers.getMapper( FilmCategoryIdMapper.class );
     FilmCategoryId toEntity(FilmCategoryIdDto filmCategoryIdDto);
 
     FilmCategoryIdDto toDto(FilmCategoryId filmCategoryId);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    FilmCategoryId partialUpdate(FilmCategoryIdDto filmCategoryIdDto, @MappingTarget FilmCategoryId filmCategoryId);
 }
