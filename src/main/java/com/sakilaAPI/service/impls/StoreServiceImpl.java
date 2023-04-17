@@ -3,11 +3,13 @@ package com.sakilaAPI.service.impls;
 import com.sakilaAPI.config.exceptions.BusinessException;
 import com.sakilaAPI.database.entities.Store;
 import com.sakilaAPI.database.repos.RepositoryFactory;
+import com.sakilaAPI.service.dtos.requests.StoreRequest;
 import com.sakilaAPI.service.dtos.responses.StoreResponse;
 import com.sakilaAPI.service.interfaces.StoreService;
-import com.sakilaAPI.utils.mappers.StoreResponseMapper;
+import com.sakilaAPI.utils.mappers.*;
 import jakarta.ws.rs.core.Response;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,9 +26,9 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<StoreResponse> getAllStores(){
+    public List<StoreResponse> getAllStores(int limit, int offset){
         return RepositoryFactory.getInstance().createStoreRepository()
-                .getAllEntities().stream()
+                .getAllEntities(limit, offset).stream()
                 .map(StoreResponseMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
@@ -41,5 +43,38 @@ public class StoreServiceImpl implements StoreService {
                     Response.Status.NOT_FOUND.getStatusCode()
                     ,"Store not found for ID: " + id );
         }
+    }
+
+    @Override
+    public StoreResponse addStore(StoreRequest store){
+        Store storeEntity = StoreRequestMapper.INSTANCE.toEntity(store);
+        storeEntity.setLastUpdate(Instant.now());
+        return StoreResponseMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createStoreRepository().addEntity(
+                        storeEntity
+                )
+        );
+    }
+
+    @Override
+    public void deleteStore(int id){
+        RepositoryFactory.getInstance().createStoreRepository().deleteEntityById(id);
+    }
+
+    @Override
+    public StoreResponse updateStore(StoreRequest store, int id){
+        Optional<Store> storeEntity = RepositoryFactory.getInstance().createStoreRepository()
+                .getEntityById(id);
+        if(storeEntity.isEmpty()){
+            throw new BusinessException(Response.Status.NOT_FOUND.getReasonPhrase(),
+                    Response.Status.NOT_FOUND.getStatusCode()
+                    ,"Store not found for ID: " + id );
+        }
+        StoreRequestMapper.INSTANCE.updateEntity(store, storeEntity.get());
+        return StoreResponseMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createStoreRepository().updateEntity(
+                        storeEntity.get()
+                )
+        );
     }
 }

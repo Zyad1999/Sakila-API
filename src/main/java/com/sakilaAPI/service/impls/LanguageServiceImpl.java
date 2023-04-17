@@ -1,17 +1,15 @@
 package com.sakilaAPI.service.impls;
 
 import com.sakilaAPI.config.exceptions.BusinessException;
-import com.sakilaAPI.database.entities.Film;
 import com.sakilaAPI.database.entities.Language;
 import com.sakilaAPI.database.repos.RepositoryFactory;
 import com.sakilaAPI.service.dtos.LanguageDto;
-import com.sakilaAPI.service.dtos.responses.FilmResponse;
-import com.sakilaAPI.service.interfaces.FilmService;
+import com.sakilaAPI.service.dtos.requests.LanguageRequest;
 import com.sakilaAPI.service.interfaces.LanguageService;
-import com.sakilaAPI.utils.mappers.FilmResponseMapper;
-import com.sakilaAPI.utils.mappers.LanguageMapper;
+import com.sakilaAPI.utils.mappers.*;
 import jakarta.ws.rs.core.Response;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,9 +26,9 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public List<LanguageDto> getAllLanguages(){
+    public List<LanguageDto> getAllLanguages(int limit, int offset){
         return RepositoryFactory.getInstance().createLanguageRepository()
-                .getAllEntities().stream()
+                .getAllEntities(limit, offset).stream()
                 .map(LanguageMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
@@ -58,5 +56,38 @@ public class LanguageServiceImpl implements LanguageService {
                     Response.Status.NOT_FOUND.getStatusCode()
                     ,"Language not found for name: " + name );
         }
+    }
+
+    @Override
+    public LanguageDto addLanguage(LanguageRequest language){
+        Language languageEntity = LanguageRequestMapper.INSTANCE.toEntity(language);
+        languageEntity.setLastUpdate(Instant.now());
+        return LanguageMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createLanguageRepository().addEntity(
+                        languageEntity
+                )
+        );
+    }
+
+    @Override
+    public void deleteLanguage(int id){
+        RepositoryFactory.getInstance().createLanguageRepository().deleteEntityById(id);
+    }
+
+    @Override
+    public LanguageDto updateLanguage(LanguageRequest language, int id){
+        Optional<Language> languageEntity = RepositoryFactory.getInstance().createLanguageRepository()
+                .getEntityById(id);
+        if(languageEntity.isEmpty()){
+            throw new BusinessException(Response.Status.NOT_FOUND.getReasonPhrase(),
+                    Response.Status.NOT_FOUND.getStatusCode()
+                    ,"language not found for ID: " + id );
+        }
+        LanguageRequestMapper.INSTANCE.updateEntity(language, languageEntity.get());
+        return LanguageMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createLanguageRepository().updateEntity(
+                        languageEntity.get()
+                )
+        );
     }
 }

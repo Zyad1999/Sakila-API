@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -22,15 +23,17 @@ public class Actor {
     private Integer id;
 
     @Column(name = "first_name", nullable = false, length = 45)
+    @NotBlank
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 45)
+    @NotBlank
     private String lastName;
 
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "actor")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "actor")
     @ToString.Exclude
     private Set<FilmActor> filmActors = new LinkedHashSet<>();
 

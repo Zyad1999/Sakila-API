@@ -8,6 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(uses = FilmActorMapper.class)
 public interface ActorMapper {
     ActorMapper INSTANCE = Mappers.getMapper( ActorMapper.class );
+    void updateEntity(ActorDto actorDto, @MappingTarget Actor actor);
     Actor toEntity(ActorDto actorDto);
 
     ActorDto toDto(Actor actor);

@@ -33,4 +33,7 @@ public class RepositoryFactory {
     public CustomerRepository createCustomerRepository(){ return new CustomerRepositoryImpl();}
     public LanguageRepository createLanguageRepository(){ return new LanguageRepositoryImpl();}
     public StaffRepository createStaffRepository(){ return new StaffRepositoryImpl();}
+    public CityRepository createCityRepository(){ return new CityRepositoryImpl();}
+    public CountryRepository createCountryRepository(){ return new CountryRepositoryImpl();}
+    public AddressRepository createAddressRepository(){ return new AddressRepositoryImpl();}
 }

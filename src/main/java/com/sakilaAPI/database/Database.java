@@ -19,8 +19,13 @@ public class Database {
 
     public static <R> R doInTransaction(
             Function<EntityManager, R> returningTransactionFunction) {
-        var entityManager = emf.createEntityManager();
-        entityManagerThreadLocal.set(entityManager);
+        EntityManager entityManager;
+        if(entityManagerThreadLocal.get() == null){
+            entityManager = emf.createEntityManager();
+            entityManagerThreadLocal.set(entityManager);
+        }else {
+            entityManager = entityManagerThreadLocal.get();
+        }
         var transaction = entityManager.getTransaction();
         transaction.begin();
         try {
@@ -35,8 +40,13 @@ public class Database {
 
     public static void doInTransactionWithoutResult(
             Consumer<EntityManager> voidTransactionFunction) {
-        var entityManager = emf.createEntityManager();
-        entityManagerThreadLocal.set(entityManager);
+        EntityManager entityManager;
+        if(entityManagerThreadLocal.get() == null){
+            entityManager = emf.createEntityManager();
+            entityManagerThreadLocal.set(entityManager);
+        }else {
+            entityManager = entityManagerThreadLocal.get();
+        }
         var transaction = entityManager.getTransaction();
         transaction.begin();
         try {

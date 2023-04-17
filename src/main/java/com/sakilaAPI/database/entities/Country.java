@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -22,6 +23,7 @@ public class Country {
     private Integer id;
 
     @Column(name = "country", nullable = false, length = 50)
+    @NotBlank
     private String country;
 
     @Column(name = "last_update", nullable = false)

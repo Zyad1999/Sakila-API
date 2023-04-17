@@ -10,7 +10,7 @@ public interface Repository<T> {
 
     Optional<T> getEntityById(Integer id);
 
-    List<T> getAllEntities();
+    List<T> getAllEntities(int limit, int offset);
 
     void deleteEntityById(Integer id);
 

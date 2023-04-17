@@ -13,5 +13,4 @@ import java.time.Instant;
 public class CountryDto implements Serializable {
     private final Integer id;
     private final String country;
-    private final Instant lastUpdate;
 }

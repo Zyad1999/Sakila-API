@@ -1,14 +1,14 @@
 package com.sakilaAPI.api.rest.resources;
 
+import com.sakilaAPI.service.dtos.CountryDto;
 import com.sakilaAPI.service.dtos.CustomerDto;
-import com.sakilaAPI.service.dtos.responses.ActorResponse;
-import com.sakilaAPI.service.impls.ActorServiceImpl;
+import com.sakilaAPI.service.dtos.requests.CountryRequest;
+import com.sakilaAPI.service.dtos.requests.CustomerRequest;
+import com.sakilaAPI.service.impls.CountryServiceImpl;
 import com.sakilaAPI.service.impls.CustomerServiceImpl;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class Customer {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CustomerDto> getAllActor() {
-        return CustomerServiceImpl.getCustomerService().getAllCustomers();
+    public List<CustomerDto> getAllActor(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        return CustomerServiceImpl.getCustomerService().getAllCustomers(limit, offset);
     }
 
     @GET
@@ -26,5 +26,25 @@ public class Customer {
     @Produces(MediaType.APPLICATION_JSON)
     public CustomerDto getActor(@PathParam("id") int id){
         return CustomerServiceImpl.getCustomerService().getCustomer(id);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public CustomerDto addCustomer(CustomerRequest customer){
+        return CustomerServiceImpl.getCustomerService().addCustomer(customer);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteCustomer(@PathParam("id") int id){
+        CustomerServiceImpl.getCustomerService().deleteCustomer(id);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("{id}")
+    public CustomerDto updateCustomer(CustomerRequest customer, @PathParam("id") int id){
+        return CustomerServiceImpl.getCustomerService().updateCustomer(customer, id);
     }
 }

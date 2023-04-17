@@ -2,16 +2,15 @@ package com.sakilaAPI.service.impls;
 
 import com.sakilaAPI.config.exceptions.BusinessException;
 import com.sakilaAPI.database.entities.Category;
-import com.sakilaAPI.database.entities.Rental;
 import com.sakilaAPI.database.repos.RepositoryFactory;
-import com.sakilaAPI.database.repos.impls.RepositoryImpl;
-import com.sakilaAPI.database.repos.interfaces.Repository;
+import com.sakilaAPI.service.dtos.requests.CategoryRequest;
+import com.sakilaAPI.service.dtos.responses.BaseCategoryResponse;
 import com.sakilaAPI.service.dtos.responses.CategoryResponse;
 import com.sakilaAPI.service.interfaces.CategoryService;
-import com.sakilaAPI.utils.mappers.CategoryResponseMapper;
+import com.sakilaAPI.utils.mappers.*;
 import jakarta.ws.rs.core.Response;
-import org.glassfish.hk2.api.Factory;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,9 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponse> getAllCategories(){
+    public List<CategoryResponse> getAllCategories(int limit, int offset){
         return RepositoryFactory.getInstance().createCategoryRepository()
-                .getAllEntities().stream()
+                .getAllEntities(limit, offset).stream()
                 .map(CategoryResponseMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
@@ -45,5 +44,38 @@ public class CategoryServiceImpl implements CategoryService {
                     Response.Status.NOT_FOUND.getStatusCode()
                     ,"Category not found for ID: " + id );
         }
+    }
+
+    @Override
+    public BaseCategoryResponse addCategory(CategoryRequest category){
+        Category categoryEntity = CategoryRequestMapper.INSTANCE.toEntity(category);
+        categoryEntity.setLastUpdate(Instant.now());
+        return BaseCategoryResponseMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createCategoryRepository().addEntity(
+                        categoryEntity
+                )
+        );
+    }
+
+    @Override
+    public void deleteCategory(int id){
+        RepositoryFactory.getInstance().createCategoryRepository().deleteEntityById(id);
+    }
+
+    @Override
+    public CategoryResponse updateCategory(CategoryRequest category, int id){
+        Optional<Category> categoryEntity = RepositoryFactory.getInstance().createCategoryRepository()
+                .getEntityById(id);
+        if(categoryEntity.isEmpty()){
+            throw new BusinessException(Response.Status.NOT_FOUND.getReasonPhrase(),
+                    Response.Status.NOT_FOUND.getStatusCode()
+                    ,"category not found for ID: " + id );
+        }
+        CategoryRequestMapper.INSTANCE.updateEntity(category, categoryEntity.get());
+        return CategoryResponseMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createCategoryRepository().updateEntity(
+                        categoryEntity.get()
+                )
+        );
     }
 }

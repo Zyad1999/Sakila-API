@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -23,10 +24,12 @@ public class Film {
     private Integer id;
 
     @Column(name = "title", nullable = false, length = 128)
+    @NotBlank
     private String title;
 
     @Lob
     @Column(name = "description")
+    @NotBlank
     private String description;
 
     @Column(name = "release_year")
@@ -67,11 +70,11 @@ public class Film {
     @ToString.Exclude
     private Set<Inventory> inventories = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "film")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "film")
     @ToString.Exclude
     private Set<FilmActor> filmActors = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "film")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "film")
     @ToString.Exclude
     private Set<FilmCategory> filmCategories = new LinkedHashSet<>();
 

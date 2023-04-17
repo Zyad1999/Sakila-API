@@ -17,6 +17,7 @@ import java.util.Set;
 @Table(name = "store")
 public class Store {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id", columnDefinition = "TINYINT UNSIGNED not null")
     private Short id;
 

@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -22,12 +23,14 @@ public class Address {
     private Integer id;
 
     @Column(name = "address", nullable = false, length = 50)
+    @NotBlank
     private String address;
 
     @Column(name = "address2", length = 50)
     private String address2;
 
     @Column(name = "district", nullable = false, length = 20)
+    @NotBlank
     private String district;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -39,6 +42,7 @@ public class Address {
     private String postalCode;
 
     @Column(name = "phone", nullable = false, length = 20)
+    @NotBlank
     private String phone;
 
     @Column(name = "last_update", nullable = false)
@@ -55,10 +59,4 @@ public class Address {
     @ToString.Exclude
     private Set<Customer> customers = new LinkedHashSet<>();
 
-/*
-    TODO [JPA Buddy] create field to map the 'location' column
-     Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @Column(name = "location", columnDefinition = "GEOMETRY(65535) not null")
-    private Object location;
-*/
 }

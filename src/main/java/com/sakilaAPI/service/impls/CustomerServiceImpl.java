@@ -1,19 +1,16 @@
 package com.sakilaAPI.service.impls;
 
 import com.sakilaAPI.config.exceptions.BusinessException;
-import com.sakilaAPI.database.entities.Actor;
 import com.sakilaAPI.database.entities.Customer;
 import com.sakilaAPI.database.repos.RepositoryFactory;
 import com.sakilaAPI.service.dtos.CustomerDto;
-import com.sakilaAPI.service.dtos.StoreDto;
-import com.sakilaAPI.service.dtos.responses.ActorResponse;
-import com.sakilaAPI.service.interfaces.ActorService;
+import com.sakilaAPI.service.dtos.requests.CustomerRequest;
 import com.sakilaAPI.service.interfaces.CustomerService;
-import com.sakilaAPI.utils.mappers.ActorResponseMapper;
+import com.sakilaAPI.utils.mappers.CustomerRequestMapper;
 import com.sakilaAPI.utils.mappers.CustomerMapper;
-import com.sakilaAPI.utils.mappers.StoreMapper;
 import jakarta.ws.rs.core.Response;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,9 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> getAllCustomers(){
+    public List<CustomerDto> getAllCustomers(int limit, int offset){
         return RepositoryFactory.getInstance().createCustomerRepository()
-                .getAllEntities().stream()
+                .getAllEntities(limit, offset).stream()
                 .map(CustomerMapper.INSTANCE::toDto).collect(Collectors.toList());
     }
 
@@ -47,5 +44,40 @@ public class CustomerServiceImpl implements CustomerService {
                     Response.Status.NOT_FOUND.getStatusCode()
                     ,"Customer not found for ID: " + id );
         }
+    }
+
+    @Override
+    public CustomerDto addCustomer(CustomerRequest customer){
+        Customer customerEntity = CustomerRequestMapper.INSTANCE.toEntity(customer);
+        customerEntity.setLastUpdate(Instant.now());
+        customerEntity.setActive(true);
+        customerEntity.setCreateDate(Instant.now());
+        return CustomerMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createCustomerRepository().addEntity(
+                        customerEntity
+                )
+        );
+    }
+
+    @Override
+    public void deleteCustomer(int id){
+        RepositoryFactory.getInstance().createCustomerRepository().deleteEntityById(id);
+    }
+
+    @Override
+    public CustomerDto updateCustomer(CustomerRequest customer, int id){
+        Optional<Customer> customerEntity = RepositoryFactory.getInstance().createCustomerRepository()
+                .getEntityById(id);
+        if(customerEntity.isEmpty()){
+            throw new BusinessException(Response.Status.NOT_FOUND.getReasonPhrase(),
+                    Response.Status.NOT_FOUND.getStatusCode()
+                    ,"customer not found for ID: " + id );
+        }
+        CustomerRequestMapper.INSTANCE.updateEntity(customer, customerEntity.get());
+        return CustomerMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createCustomerRepository().updateEntity(
+                        customerEntity.get()
+                )
+        );
     }
 }

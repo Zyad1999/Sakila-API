@@ -22,6 +22,9 @@ public interface StoreResponseMapper {
     StoreResponse toDto(Store store);
 
     default Set<BaseFilmResponse> getFilms(Set<Inventory> inventories) {
+        if(inventories == null){
+            return null;
+        }
         Set<BaseFilmResponse> films = new HashSet<>();
         for (Inventory inventory : inventories) {
             films.add(BaseFilmResponseMapper.INSTANCE.toDto(inventory.getFilm()));

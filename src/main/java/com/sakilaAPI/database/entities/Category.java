@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -17,10 +18,12 @@ import java.util.Set;
 @Table(name = "category")
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", columnDefinition = "TINYINT UNSIGNED not null")
     private Short id;
 
     @Column(name = "name", nullable = false, length = 25)
+    @NotBlank
     private String name;
 
     @Column(name = "last_update", nullable = false)

@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -27,12 +28,15 @@ public class Customer {
     private Store store;
 
     @Column(name = "first_name", nullable = false, length = 45)
+    @NotBlank
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 45)
+    @NotBlank
     private String lastName;
 
     @Column(name = "email", length = 50)
+    @NotBlank
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

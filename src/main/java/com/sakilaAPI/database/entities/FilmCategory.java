@@ -15,7 +15,7 @@ import java.time.Instant;
 @Table(name = "film_category")
 public class FilmCategory {
     @EmbeddedId
-    private FilmCategoryId id;
+    private FilmCategoryId id = new FilmCategoryId();
 
     @MapsId("filmId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

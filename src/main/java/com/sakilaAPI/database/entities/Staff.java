@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -17,13 +18,16 @@ import java.util.Set;
 @Table(name = "staff")
 public class Staff {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staff_id", columnDefinition = "TINYINT UNSIGNED not null")
     private Short id;
 
     @Column(name = "first_name", nullable = false, length = 45)
+    @NotBlank
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 45)
+    @NotBlank
     private String lastName;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -35,6 +39,7 @@ public class Staff {
     private byte[] picture;
 
     @Column(name = "email", length = 50)
+    @NotBlank
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -46,9 +51,11 @@ public class Staff {
     private Boolean active = false;
 
     @Column(name = "username", nullable = false, length = 16)
+    @NotBlank
     private String username;
 
     @Column(name = "password", length = 40)
+    @NotBlank
     private String password;
 
     @Column(name = "last_update", nullable = false)

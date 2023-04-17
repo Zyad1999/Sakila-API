@@ -1,15 +1,14 @@
 package com.sakilaAPI.api.rest.resources;
 
-import com.sakilaAPI.service.dtos.StaffDto;
-import com.sakilaAPI.service.dtos.StoreDto;
+import com.sakilaAPI.service.dtos.requests.StaffRequest;
+import com.sakilaAPI.service.dtos.requests.StoreRequest;
+import com.sakilaAPI.service.dtos.responses.StaffResponse;
 import com.sakilaAPI.service.dtos.responses.StoreResponse;
 import com.sakilaAPI.service.impls.StaffServiceImpl;
 import com.sakilaAPI.service.impls.StoreServiceImpl;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -18,8 +17,8 @@ public class Store {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StoreResponse> getAllStores() {
-        return StoreServiceImpl.getStoreService().getAllStores();
+    public List<StoreResponse> getAllStores(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        return StoreServiceImpl.getStoreService().getAllStores(limit, offset);
     }
 
     @GET
@@ -27,5 +26,25 @@ public class Store {
     @Produces(MediaType.APPLICATION_JSON)
     public StoreResponse getStore(@PathParam("id") int id){
         return StoreServiceImpl.getStoreService().getStore(id);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public StoreResponse addStore(StoreRequest store){
+        return StoreServiceImpl.getStoreService().addStore(store);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteStore(@PathParam("id") int id){
+        StoreServiceImpl.getStoreService().deleteStore(id);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("{id}")
+    public StoreResponse updateStore(StoreRequest store, @PathParam("id") int id){
+        return StoreServiceImpl.getStoreService().updateStore(store, id);
     }
 }

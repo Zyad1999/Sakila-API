@@ -14,6 +14,8 @@ public class ResponseFilter implements Filter {
         try{
             chain.doFilter(request, response);
         }catch (Exception e){
+            System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+            System.out.println(e);
             throw new RuntimeException("Error during serving request please try again");
         }finally {
             Database.closeEntityManager();

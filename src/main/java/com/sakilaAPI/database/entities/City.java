@@ -1,6 +1,7 @@
 package com.sakilaAPI.database.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -22,6 +23,7 @@ public class City {
     private Integer id;
 
     @Column(name = "city", nullable = false, length = 50)
+    @NotBlank
     private String city;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

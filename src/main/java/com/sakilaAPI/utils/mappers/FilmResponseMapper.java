@@ -23,6 +23,9 @@ public interface FilmResponseMapper {
     FilmResponse toDto(Film film);
 
     default Set<BaseActorResponse> getActors(Set<FilmActor> filmActors) {
+        if(filmActors == null){
+            return null;
+        }
         Set<BaseActorResponse> actors = new HashSet<>();
         for (FilmActor filmActor : filmActors) {
             actors.add(BaseActorResponseMapper.INSTANCE.toDto(filmActor.getActor()));
@@ -31,6 +34,9 @@ public interface FilmResponseMapper {
     }
 
     default Set<BaseCategoryResponse> getCategories(Set<FilmCategory> filmCategories) {
+        if(filmCategories == null){
+            return null;
+        }
         Set<BaseCategoryResponse> categories = new HashSet<>();
         for (FilmCategory filmCategory : filmCategories) {
             categories.add(BaseCategoryResponseMapper.INSTANCE.toDto(filmCategory.getCategory()));
