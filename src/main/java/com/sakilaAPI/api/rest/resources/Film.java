@@ -44,6 +44,8 @@ public class Film {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public FilmResponse updateFilm(FilmRequest film, @PathParam("id") int id){
         return FilmServiceImpl.getFilmService().updateFilm(film, id);
     }

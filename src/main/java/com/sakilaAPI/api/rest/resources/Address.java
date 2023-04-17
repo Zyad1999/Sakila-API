@@ -45,6 +45,8 @@ public class Address {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public AddressDto updateActor(AddressRequest address, @PathParam("id") int id){
         return AddressServiceImpl.getAddressService().updateAddress(address, id);
     }

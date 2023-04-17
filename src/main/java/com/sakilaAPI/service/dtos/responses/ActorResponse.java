@@ -1,15 +1,23 @@
 package com.sakilaAPI.service.dtos.responses;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ActorResponse implements Serializable {
-    private final Integer id;
-    private final String firstName;
-    private final String lastName;
-    private final Set<BaseFilmResponse> films;
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private Set<BaseFilmResponse> films;
 }

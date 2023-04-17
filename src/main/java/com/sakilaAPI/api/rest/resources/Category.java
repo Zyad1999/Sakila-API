@@ -45,6 +45,8 @@ public class Category {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public CategoryResponse updateCategory(CategoryRequest category, @PathParam("id") int id){
         return CategoryServiceImpl.getCategoryService().updateCategory(category, id);
     }

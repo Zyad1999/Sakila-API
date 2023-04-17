@@ -51,6 +51,8 @@ public class Language {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public LanguageDto updateLanguage(LanguageRequest language, @PathParam("id") int id){
         return LanguageServiceImpl.getLanguageService().updateLanguage(language, id);
     }

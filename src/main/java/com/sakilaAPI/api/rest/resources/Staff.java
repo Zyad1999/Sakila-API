@@ -44,6 +44,8 @@ public class Staff {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public StaffResponse updateStaff(StaffRequest staff, @PathParam("id") int id){
         return StaffServiceImpl.getStaffService().updateStaff(staff, id);
     }

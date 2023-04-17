@@ -4,6 +4,7 @@ import com.sakilaAPI.service.dtos.CountryDto;
 import com.sakilaAPI.service.dtos.CustomerDto;
 import com.sakilaAPI.service.dtos.requests.CountryRequest;
 import com.sakilaAPI.service.dtos.requests.CustomerRequest;
+import com.sakilaAPI.service.dtos.responses.CustomerResponse;
 import com.sakilaAPI.service.impls.CountryServiceImpl;
 import com.sakilaAPI.service.impls.CustomerServiceImpl;
 import jakarta.ws.rs.*;
@@ -17,21 +18,21 @@ public class Customer {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CustomerDto> getAllActor(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+    public List<CustomerResponse> getAllCustomers(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
         return CustomerServiceImpl.getCustomerService().getAllCustomers(limit, offset);
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public CustomerDto getActor(@PathParam("id") int id){
+    public CustomerResponse getCustomer(@PathParam("id") int id){
         return CustomerServiceImpl.getCustomerService().getCustomer(id);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public CustomerDto addCustomer(CustomerRequest customer){
+    public CustomerResponse addCustomer(CustomerRequest customer){
         return CustomerServiceImpl.getCustomerService().addCustomer(customer);
     }
 
@@ -44,7 +45,9 @@ public class Customer {
 
     @PUT
     @Path("{id}")
-    public CustomerDto updateCustomer(CustomerRequest customer, @PathParam("id") int id){
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public CustomerResponse updateCustomer(CustomerRequest customer, @PathParam("id") int id){
         return CustomerServiceImpl.getCustomerService().updateCustomer(customer, id);
     }
 }

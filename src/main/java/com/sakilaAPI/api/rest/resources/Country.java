@@ -17,7 +17,7 @@ public class Country {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CountryDto> getAllCities(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+    public List<CountryDto> getAllCountries(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
         return CountryServiceImpl.getCountryService().getAllCountries(limit, offset);
     }
 
@@ -31,7 +31,7 @@ public class Country {
     @GET
     @Path("/name/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public CountryDto getCity(@PathParam("name") String name){
+    public CountryDto getCountry(@PathParam("name") String name){
         return CountryServiceImpl.getCountryService().getCountry(name);
     }
 
@@ -51,6 +51,8 @@ public class Country {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public CountryDto updateCountry(CountryRequest country, @PathParam("id") int id){
         return CountryServiceImpl.getCountryService().updateCountry(country, id);
     }

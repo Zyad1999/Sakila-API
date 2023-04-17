@@ -11,8 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class ActorRequest implements Serializable {
-    @NotBlank
     private String firstName;
-    @NotBlank
     private String lastName;
 }

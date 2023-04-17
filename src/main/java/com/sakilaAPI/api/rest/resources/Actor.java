@@ -42,6 +42,8 @@ public class Actor {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public ActorResponse updateActor(ActorRequest actor, @PathParam("id") int id){
         return ActorServiceImpl.getActorService().updateActor(actor, id);
     }

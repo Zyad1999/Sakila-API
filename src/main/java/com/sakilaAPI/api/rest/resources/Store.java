@@ -44,6 +44,8 @@ public class Store {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public StoreResponse updateStore(StoreRequest store, @PathParam("id") int id){
         return StoreServiceImpl.getStoreService().updateStore(store, id);
     }

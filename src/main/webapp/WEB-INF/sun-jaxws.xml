@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+    <endpoint
+            name="ActorWebService"
+            implementation="com.sakilaAPI.api.soap.services.Actor"
+            url-pattern="/soap/actor"/>
+    <endpoint
+            name="CountryWebService"
+            implementation="com.sakilaAPI.api.soap.services.Country"
+            url-pattern="/soap/country"/>
+
+    <endpoint
+            name="AddressWebService"
+            implementation="com.sakilaAPI.api.soap.services.Address"
+            url-pattern="/soap/address"/>
+
+    <endpoint
+            name="CategoryWebService"
+            implementation="com.sakilaAPI.api.soap.services.Category"
+            url-pattern="/soap/category"/>
+
+    <endpoint
+            name="CityWebService"
+            implementation="com.sakilaAPI.api.soap.services.City"
+            url-pattern="/soap/city"/>
+
+    <endpoint
+            name="CustomerWebService"
+            implementation="com.sakilaAPI.api.soap.services.Customer"
+            url-pattern="/soap/customer"/>
+
+    <endpoint
+            name="FilmWebService"
+            implementation="com.sakilaAPI.api.soap.services.Film"
+            url-pattern="/soap/film"/>
+
+    <endpoint
+            name="LanguageWebService"
+            implementation="com.sakilaAPI.api.soap.services.Language"
+            url-pattern="/soap/language"/>
+
+    <endpoint
+            name="StaffWebService"
+            implementation="com.sakilaAPI.api.soap.services.Staff"
+            url-pattern="/soap/staff"/>
+
+    <endpoint
+            name="StoreWebService"
+            implementation="com.sakilaAPI.api.soap.services.Store"
+            url-pattern="/soap/store"/>
+</endpoints>

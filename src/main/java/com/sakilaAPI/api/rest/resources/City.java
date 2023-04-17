@@ -51,6 +51,8 @@ public class City {
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public CityDto updateCity(CityRequest city, @PathParam("id") int id){
         return CityServiceImpl.getCityService().updateCity(city, id);
     }
