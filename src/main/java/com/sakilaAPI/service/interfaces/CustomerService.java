@@ -1,6 +1,8 @@
 package com.sakilaAPI.service.interfaces;
 
+import com.sakilaAPI.service.dtos.RentalDto;
 import com.sakilaAPI.service.dtos.requests.CustomerRequest;
+import com.sakilaAPI.service.dtos.requests.RentFilmRequest;
 import com.sakilaAPI.service.dtos.responses.CustomerResponse;
 
 import java.util.List;
@@ -15,4 +17,8 @@ public interface CustomerService {
     void deleteCustomer(int id);
 
     CustomerResponse updateCustomer(CustomerRequest customer, int id);
+
+    RentalDto rentFilm(RentFilmRequest request);
+
+    RentalDto returnFilm(Integer rentalId);
 }

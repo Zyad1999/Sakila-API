@@ -1,8 +1,12 @@
 package com.sakilaAPI.service.impls;
 
 import com.sakilaAPI.config.exceptions.BusinessException;
+import com.sakilaAPI.database.entities.Film;
+import com.sakilaAPI.database.entities.Inventory;
 import com.sakilaAPI.database.entities.Store;
 import com.sakilaAPI.database.repos.RepositoryFactory;
+import com.sakilaAPI.service.dtos.InventoryDto;
+import com.sakilaAPI.service.dtos.requests.AddFilmToStoreRequest;
 import com.sakilaAPI.service.dtos.requests.StoreRequest;
 import com.sakilaAPI.service.dtos.responses.StoreResponse;
 import com.sakilaAPI.service.interfaces.StoreService;
@@ -76,5 +80,24 @@ public class StoreServiceImpl implements StoreService {
                         storeEntity.get()
                 )
         );
+    }
+
+    @Override
+    public InventoryDto addFilm(AddFilmToStoreRequest request){
+        Inventory inventory = Inventory.builder()
+                .film(Film.builder().id(request.getFilmId()).build())
+                .store(Store.builder().id(request.getStoreId()).build())
+                .lastUpdate(Instant.now())
+                .build();
+        return InventoryMapper.INSTANCE.toDto(
+                RepositoryFactory.getInstance().createRepository(Inventory.class)
+                        .addEntity(inventory)
+        );
+    }
+
+    @Override
+    public void removeFilm(Integer inventoryId){
+        RepositoryFactory.getInstance().createRepository(Inventory.class)
+                        .deleteEntityById(inventoryId);
     }
 }

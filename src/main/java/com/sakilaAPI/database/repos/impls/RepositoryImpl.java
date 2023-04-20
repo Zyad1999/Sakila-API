@@ -27,9 +27,7 @@ public class RepositoryImpl<T> implements Repository<T>{
             }catch (PersistenceException e) {
                 System.out.println(e);
                 if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-                    throw new BusinessException(Response.Status.BAD_REQUEST.getReasonPhrase(),
-                            Response.Status.BAD_REQUEST.getStatusCode(),
-                            "Validation constraint violation: " + e.getCause().getMessage());
+                    throw e;
                 } else {
                     System.out.println("persistance E");
                     System.out.println(e);

@@ -14,6 +14,15 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@NamedStoredProcedureQuery(
+        name = "filmInStock",
+        procedureName = "film_in_stock",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_film_id", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_store_id", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_film_count", type = Integer.class)
+        }
+)
 @Table(name = "store")
 public class Store {
     @Id

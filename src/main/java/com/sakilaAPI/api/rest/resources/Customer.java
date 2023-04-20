@@ -1,11 +1,9 @@
 package com.sakilaAPI.api.rest.resources;
 
-import com.sakilaAPI.service.dtos.CountryDto;
-import com.sakilaAPI.service.dtos.CustomerDto;
-import com.sakilaAPI.service.dtos.requests.CountryRequest;
+import com.sakilaAPI.service.dtos.RentalDto;
 import com.sakilaAPI.service.dtos.requests.CustomerRequest;
+import com.sakilaAPI.service.dtos.requests.RentFilmRequest;
 import com.sakilaAPI.service.dtos.responses.CustomerResponse;
-import com.sakilaAPI.service.impls.CountryServiceImpl;
 import com.sakilaAPI.service.impls.CustomerServiceImpl;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -49,5 +47,21 @@ public class Customer {
     @Consumes(MediaType.APPLICATION_JSON)
     public CustomerResponse updateCustomer(CustomerRequest customer, @PathParam("id") int id){
         return CustomerServiceImpl.getCustomerService().updateCustomer(customer, id);
+    }
+
+    @POST
+    @Path("rent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public RentalDto rentFilm(RentFilmRequest request){
+        return CustomerServiceImpl.getCustomerService().rentFilm(request);
+    }
+
+    @PUT
+    @Path("rent/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public RentalDto returnFilm(@PathParam("id") int id){
+        return CustomerServiceImpl.getCustomerService().returnFilm(id);
     }
 }

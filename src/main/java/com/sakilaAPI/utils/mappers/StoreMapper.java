@@ -21,6 +21,9 @@ public interface StoreMapper {
     StoreDto toDto(Store store);
 
     default Set<FilmDto> getFilms(Set<Inventory> inventories) {
+        if(inventories==null){
+            return null;
+        }
         Set<FilmDto> films = new HashSet<>();
         for (Inventory inventory : inventories) {
             films.add(FilmMapper.INSTANCE.toDto(inventory.getFilm()));

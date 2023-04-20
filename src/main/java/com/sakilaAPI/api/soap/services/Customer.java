@@ -1,11 +1,15 @@
 package com.sakilaAPI.api.soap.services;
 
+import com.sakilaAPI.service.dtos.RentalDto;
 import com.sakilaAPI.service.dtos.requests.CustomerRequest;
+import com.sakilaAPI.service.dtos.requests.RentFilmRequest;
 import com.sakilaAPI.service.dtos.responses.CustomerResponse;
 import com.sakilaAPI.service.impls.CustomerServiceImpl;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
@@ -37,5 +41,15 @@ public class Customer {
     @WebMethod
     public CustomerResponse getCustomer(@WebParam(name = "id") int id){
         return CustomerServiceImpl.getCustomerService().getCustomer(id);
+    }
+
+    @WebMethod
+    public RentalDto rentFilm(RentFilmRequest request){
+        return CustomerServiceImpl.getCustomerService().rentFilm(request);
+    }
+
+    @WebMethod
+    public RentalDto returnFilm(@WebParam(name = "id") int id){
+        return CustomerServiceImpl.getCustomerService().returnFilm(id);
     }
 }

@@ -1,5 +1,7 @@
 package com.sakilaAPI.api.rest.resources;
 
+import com.sakilaAPI.service.dtos.InventoryDto;
+import com.sakilaAPI.service.dtos.requests.AddFilmToStoreRequest;
 import com.sakilaAPI.service.dtos.requests.StaffRequest;
 import com.sakilaAPI.service.dtos.requests.StoreRequest;
 import com.sakilaAPI.service.dtos.responses.StaffResponse;
@@ -48,5 +50,22 @@ public class Store {
     @Consumes(MediaType.APPLICATION_JSON)
     public StoreResponse updateStore(StoreRequest store, @PathParam("id") int id){
         return StoreServiceImpl.getStoreService().updateStore(store, id);
+    }
+
+    @POST
+    @Path("inventory")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public InventoryDto addFilmToStore(AddFilmToStoreRequest request){
+        return StoreServiceImpl.getStoreService().addFilm(request);
+    }
+
+    @DELETE
+    @Path("inventory/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response removeFilmFromStore(@PathParam("id") int id){
+        StoreServiceImpl.getStoreService().removeFilm(id);
+        return Response.ok().build();
     }
 }

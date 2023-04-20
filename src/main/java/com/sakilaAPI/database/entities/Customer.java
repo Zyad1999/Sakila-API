@@ -15,6 +15,8 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@SqlResultSetMapping(name = "customer_balance_mapping", columns = @ColumnResult(name = "result", type = Double.class))
+@NamedNativeQuery(name = "Customer.getCustomerBalance", query = "SELECT get_customer_balance(:p_customer_id, :p_effective_date) AS result", resultSetMapping = "customer_balance_mapping")
 @Table(name = "customer")
 public class Customer {
     @Id

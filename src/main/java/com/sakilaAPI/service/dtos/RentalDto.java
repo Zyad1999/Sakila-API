@@ -1,6 +1,9 @@
 package com.sakilaAPI.service.dtos;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -9,12 +12,15 @@ import java.time.Instant;
  * A DTO for the {@link com.sakilaAPI.database.entities.Rental} entity
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@XmlRootElement
 public class RentalDto implements Serializable {
-    private final Integer id;
-    private final Instant rentalDate;
-    private final InventoryDto inventory;
-    private final CustomerDto customer;
-    private final Instant returnDate;
-    private final StaffDto staff;
-    private final Instant lastUpdate;
+    private Integer id;
+    private Instant rentalDate;
+    private InventoryDto inventory;
+    private CustomerDto customer;
+    private Instant returnDate;
+    private StaffDto staff;
+    private Instant lastUpdate;
 }

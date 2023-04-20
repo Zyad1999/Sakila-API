@@ -14,6 +14,8 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
+@SqlResultSetMapping(name = "inventory_in_stock_mapping", columns = @ColumnResult(name = "result", type = Boolean.class))
+@NamedNativeQuery(name = "Inventory.isInventoryInStock", query = "SELECT inventory_in_stock(:p_inventory_id) AS result", resultSetMapping = "inventory_in_stock_mapping")
 @Table(name = "inventory")
 public class Inventory {
     @Id
