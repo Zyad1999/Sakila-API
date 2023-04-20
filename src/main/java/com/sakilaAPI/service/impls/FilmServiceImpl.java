@@ -100,7 +100,7 @@ public class FilmServiceImpl implements FilmService {
         }catch(NoSuchElementException e){
             throw new BusinessException(BusinessExceptions.BAD_REQUEST.getPhrase(),
                     BusinessExceptions.BAD_REQUEST.getCode()
-                    ,"Invalid actor ID In the actors list");
+                    ,"Invalid category ID In the actors list");
         }
     }
 
